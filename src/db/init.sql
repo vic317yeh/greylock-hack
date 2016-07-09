@@ -4,8 +4,7 @@ CREATE TABLE Users (
 	uid INT NOT NULL AUTO_INCREMENT,
 	email VARCHAR(80) NOT NULL,
 	password CHAR(41) NOT NULL, 
-	first_name TEXT,
-	last_name TEXT,
+	name TEXT,
 	location_lat DECIMAL(10, 8) NOT NULL,
 	location_log DECIMAL(11, 8) NOT NULL,	
 	PRIMARY KEY (uid)
