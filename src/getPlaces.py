@@ -24,8 +24,6 @@ print address
 search_results = yelp_api.search_query(term="tourist attractions",
     location=address, limit=20, sort=2, radius_filter=8000)
 
-return search_results
-
 #print json.dumps(search_results, sort_keys=True, indent=4)
 
 #connect to db
