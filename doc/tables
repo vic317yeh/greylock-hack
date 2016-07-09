@@ -1,0 +1,25 @@
+Users
+	uid: int
+	email: string
+	password: string
+	first_name: string
+	last_name: string
+	location_log: decimal
+	locaiton_lat: decimal
+	friends: [uid]
+	flags: [
+		{
+			flagid: int
+			timestamp: int
+			rating: int
+			review: string
+		}
+	]
+
+Flags
+	flagid: int
+	location_log: decimal
+	locaiton_lat: decimal
+	rating: int
+	photo_url: string
+
