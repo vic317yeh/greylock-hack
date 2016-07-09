@@ -3,10 +3,9 @@ DROP Table IF EXISTS Users, Friends, Flags, UserFlags;
 CREATE TABLE Users (
 	uid INT NOT NULL AUTO_INCREMENT,
 	email VARCHAR(80) NOT NULL,
-	password CHAR(41) NOT NULL, 
 	name TEXT,
-	location_lat DECIMAL(10, 8) NOT NULL,
-	location_log DECIMAL(11, 8) NOT NULL,	
+	location_lat DECIMAL(10, 8),
+	location_log DECIMAL(11, 8),	
 	PRIMARY KEY (uid)
 );
 
