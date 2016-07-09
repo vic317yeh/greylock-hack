@@ -1,4 +1,9 @@
-local = True
+import sys
+
+if len(sys.argv)>1:
+  local=True
+else:
+  local=False
 
 import io
 from yelpapi import YelpAPI
