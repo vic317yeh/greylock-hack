@@ -40,6 +40,6 @@ for biz in search_results['businesses']:
     rating = biz['rating']
     lat = biz['location']['coordinate']['latitude']
     lng = biz['location']['coordinate']['longitude']
-    sql = "INSERT INTO Flags (location_lat, location_long, rating, photo_url, name) VALUES ("+lat+", "+lng+", "+rating+", "+image+", "+image+", "+name+")"
+    sql = "INSERT INTO Flags (location_lat, location_long, rating, photo_url, name) VALUES ("+str(lat)+", "+str(lng)+", "+str(rating)+", "+str(imagestr)+", "+str(image)+", "+str(name)+")"
     print sql
 
