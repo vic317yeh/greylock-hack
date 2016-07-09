@@ -60,4 +60,7 @@ for biz in search_results['businesses']:
       print "Executing"
       cursor.execute(sql)
 
+if not local:
+  db.commit()
+
 
