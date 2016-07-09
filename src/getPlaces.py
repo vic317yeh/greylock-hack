@@ -9,13 +9,19 @@ yelp_api = YelpAPI('rRkbtARpvQcSL3l-ZRIN0w',
     'd5ddPgXCn21G9Z3VIYkiQ51Wzvc')
 
 geolocator = Nominatim()
-loc = geolocator.reverse("37.484556, -122.147845")
+loc = geolocator.reverse("37.777111, -122.415153")
 addr = loc.raw['address']
-address = addr['house_number'] + " " +addr['road'] + ", " + addr['town'] + ", " + addr['state']
+
+if 'city' in addr:
+  city=addr['city']
+else:
+  city=addr['town']
+
+address = addr['house_number'] + " " +addr['road'] + ", " + city +", " + addr['state']
 print address
 
 search_results = yelp_api.search_query(term="tourist attractions",
-    location=address, limit=10, radius_filter='8000')
+    location=address, limit=20, sort=2, radius_filter=8000)
 
 print json.dumps(search_results, sort_keys=True, indent=4)
 
