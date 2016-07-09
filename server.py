@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import MySQLdb
 from flask import Flask
+import sys
 app = Flask(__name__)
 
 db = MySQLdb.connect(host="localhost",   
@@ -16,7 +17,6 @@ def login():
 	name=request.form['name']
 	query_cmd = ''
 	cur.execute(query_cmd)
-
 
 
 if __name__ == "__main__":
