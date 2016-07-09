@@ -35,9 +35,11 @@ print "Database version : %s " % data
 
 for biz in search_results['businesses']:
   if biz['rating'] >= 3.5:
-    print biz['name']
-    print biz['image_url']
-    print biz['rating']
-    print biz['location']['coordinate']['latitude']
-    print biz['location']['coordinate']['longitude']
+    name = biz['name']
+    image =  biz['image_url']
+    rating = biz['rating']
+    lat = biz['location']['coordinate']['latitude']
+    lng = biz['location']['coordinate']['longitude']
+    sql = "INSERT INTO Flags (location_lat, location_long, rating, photo_url, name) VALUES ("+lat+", "+lng+", "+rating+", "+image+", "+image+", "+name+")"
+    print sql
 
