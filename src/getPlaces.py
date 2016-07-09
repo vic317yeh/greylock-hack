@@ -1,8 +1,16 @@
+import sys
+
+if len(sys.argv)>1:
+  local=True
+else:
+  local=False
+
 import io
 from yelpapi import YelpAPI
 from geopy.geocoders import Nominatim
 import json
-import MySQLdb
+if not local:
+  import MySQLdb
 
 yelp_api = YelpAPI('rRkbtARpvQcSL3l-ZRIN0w',
     'G3KrPharmO7HX1FiZ0ApyrZll2Q',
@@ -27,17 +35,32 @@ search_results = yelp_api.search_query(term="tourist attractions",
 #print json.dumps(search_results, sort_keys=True, indent=4)
 
 #connect to db
-db = MySQLdb.connect("localhost","root","greylock","greylock" )
-cursor = db.cursor()
-cursor.execute("SELECT VERSION()")
-data = cursor.fetchone()
-print "Database version : %s " % data
+if not local:
+  db = MySQLdb.connect("localhost","root","greylock","greylock" )
+  cursor = db.cursor()
+  cursor.execute("SELECT VERSION()")
+  data = cursor.fetchone()
+  print "Database version : %s " % data
 
 for biz in search_results['businesses']:
   if biz['rating'] >= 3.5:
-    print biz['name']
-    print biz['image_url']
-    print biz['rating']
-    print biz['location']['coordinate']['latitude']
-    print biz['location']['coordinate']['longitude']
+    name = biz['name']
+    image =  biz['image_url']
+    rating = biz['rating']
+    lat = biz['location']['coordinate']['latitude']
+    lng = biz['location']['coordinate']['longitude']
+    print name
+    print image
+    print rating
+    print lat
+    print lng
+    sql = "INSERT INTO Flags (location_lat, location_log, rating, photo_url, name) VALUES ("+str(lat)+", "+str(lng)+", "+str(rating)+", \""+str(image)+"\", \""+name+"\")"
+    print sql
+    if not local:
+      print "Executing"
+      cursor.execute(sql)
+
+if not local:
+  db.commit()
+
 
