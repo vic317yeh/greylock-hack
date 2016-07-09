@@ -1,3 +1,8 @@
+DROP Table Users;
+DROP Table Friends;
+DROP Table Flags;
+DROP Table UserFlags;
+
 CREATE TABLE Users (
 	uid INT NOT NULL AUTO_INCREMENT,
 	email VARCHAR(80) NOT NULL,
@@ -23,7 +28,7 @@ CREATE TABLE Flags (
 	photo_url TEXT
 );
 
-CREATE TABLE USERFLAG (
+CREATE TABLE UserFlags (
 	email VARCHAR(80) NOT NULL,
 	fid INT NOT NULL AUTO_INCREMENT,
 	timestamp LONG NOT NULL,
