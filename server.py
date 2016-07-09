@@ -2,8 +2,9 @@
 # import peewee
 # from peewee import *
 from flask import *
-import sys
 app = Flask(__name__)
+
+
 
 # db = MySQLDatabase("greylock",  
 #                      user="root",        
