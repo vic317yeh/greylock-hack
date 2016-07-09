@@ -54,9 +54,9 @@ for biz in search_results['businesses']:
     print rating
     print lat
     print lng
+    sql = "INSERT INTO Flags (location_lat, location_long, rating, photo_url, name) VALUES ("+str(lat)+", "+str(lng)+", "+str(rating)+", \""+str(image)+"\", \""+name+"\")"
+    print sql
     if not local:
-      sql = "INSERT INTO Flags (location_lat, location_long, rating, photo_url, name) VALUES ("+str(lat)+", "+str(lng)+", "+str(rating)+", "+str(image)+", "+name+")"
-      print sql
       cursor.execute(sql)
 
 
