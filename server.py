@@ -1,8 +1,7 @@
 #!/usr/bin/python
 # import peewee
 # from peewee import *
-from flask import Flask
-from flask import request
+from flask import *
 import sys
 app = Flask(__name__)
 
@@ -72,8 +71,10 @@ def test_get():
 
 @app.route('/test_post', methods=['POST'])
 def test_post():
+	print "here"
+	data = json.dumps(request.json)
 	result = {
-		"name": request.form['name']	
+		'login': True
 	}
 	return str(result)
 
