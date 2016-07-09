@@ -18,6 +18,7 @@ CREATE TABLE Friends (
 
 CREATE TABLE Flags (
 	fid INT NOT NULL AUTO_INCREMENT,
+	name TEXT NOT NULL,
 	location_lat DECIMAL(10, 8) NOT NULL,
 	location_log DECIMAL(11, 8) NOT NULL,	
 	rating INT NOT NULL,
