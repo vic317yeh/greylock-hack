@@ -2,6 +2,7 @@
 import peewee
 from peewee import *
 from flask import *
+import MySQLdb
 app = Flask(__name__)
 
 #may fuck shit up
@@ -11,20 +12,41 @@ from mymodels import *
 
 @app.route('/login', methods=['POST'])
 def login():
-	email=request.form['email']
-	name=request.form['name']
-
+  data=request.json
+  email=data['email']
+  name=data['name']
   database.connect()
   result = {"loggin": False}
-	if not_exits:
-		newUser = User(name=name, email=email)
+  not_exists = Users.select().where(Users.email == email)
+  print not_exists
+  if not_exists == 0:
+    newUser = Users(name=name, email=email)
     newUser.save()
     result['loggin'] = True
   return str(result)
 
+
+@app.route('/getFlags', methods=['POST'])
+def getFlags():
+  data=request.json
+  email=data['email']
+  lat=data['lat']
+  lng=data['long']
+  database.connect()
+  results = Flags.select().where(Flags.fid>0)
+  ret={"res": []}
+  for res in results:
+    entry = {"name": res.name, "url": res.photo_url, "snippet": res.snippet, "rating": res.rating}
+    ret["res"].append(entry)
+  return str(ret)
+  
+@app.route('/verify', methods=['POST'])
+def verify():
+    
+
 @app.route('/')
 def hello():
-	return 'hello world'
+  return 'hello world'
 
 @app.route('/test_get')
 def test_get():

@@ -16,6 +16,7 @@ class Flags(BaseModel):
     name = TextField()
     photo_url = TextField(null=True)
     rating = IntegerField()
+    snippet = TextField()
 
     class Meta:
         db_table = 'Flags'
