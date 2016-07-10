@@ -2,33 +2,8 @@
 import peewee
 from peewee import *
 from flask import *
-import os
 import MySQLdb
-from werkzeug.utils import secure_filename
-import urllib, cStringIO
-
-UPLOAD_FOLDER = os.path.dirname(os.path.realpath(__file__)) + '/static/img/'
-ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
-
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
-
-from PIL import Image
-import imagehash
-
-DIFFERENCE_BAR = 10
-
-def match(userImgSrc, targetImgSrc):
-    userImgSrc =cStringIO.StringIO(urllib.urlopen(userImgSrc).read())
-    targetImgSrc = cStringIO.StringIO(urllib.urlopen(targetImgSrc).read())
-    user_img = Image.open(userImgSrc)
-    target_img = Image.open(targetImgSrc)
-    user_hash = imagehash.average_hash(user_img)
-    target_hash = imagehash.average_hash(target_img)
-    result = True if user_hash-target_hash <= DIFFERENCE_BAR else False
-    return result
-
 
 #may fuck shit up
 import sys
@@ -71,6 +46,7 @@ def getFlags():
   return str(ret)
 
 #create user timelie
+#
 @app.route('/timeline', methods=['POST'])
 def timeline():
   data=request.json
@@ -92,20 +68,9 @@ def timeline():
   return str(ret)
 
 
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
-
 @app.route('/verify', methods=['POST'])
 def verify():
-#  file = request.files['file']
-  filename = request.json['file']
-  targetUrl = request.json['targetUrl']
-#  if file and allowed_file(file.filename):
-#    filename = secure_filename(file.filename)
-#    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-  print 'hi+++++'+ filename
-  return str({'result':match(filename, targetUrl)})
+
 
 @app.route('/')
 def hello():
