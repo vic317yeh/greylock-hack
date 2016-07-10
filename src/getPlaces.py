@@ -11,8 +11,6 @@ from yelpapi import YelpAPI
 from geopy.geocoders import Nominatim
 import json
 from mymodels import *
-if not local:
-    import MySQLdb
 
 yelp_api = YelpAPI('rRkbtARpvQcSL3l-ZRIN0w',
         'G3KrPharmO7HX1FiZ0ApyrZll2Q',
@@ -62,6 +60,6 @@ for biz in search_results['businesses']:
     if not local:
         print "Executing"
         cursor.execute(sql)'''
-        currFlag = Flags(name=name, photo_url = image, rating = rating, 
+        currFlag = Flags(name=name, photo_url = image, rating = rating,
             location_lat = lat, location_log = lng)
         currFlag.save()
