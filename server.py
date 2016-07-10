@@ -9,7 +9,9 @@ app = Flask(__name__)
 import sys
 sys.path.insert(0, '/home/ubuntu/greylock-hack/src')
 from mymodels import *
+from geopy.distance import vincenty
 
+#login
 @app.route('/login', methods=['POST'])
 def login():
   data=request.json
@@ -25,24 +27,49 @@ def login():
     result['loggin'] = True
   return str(result)
 
-
+#get flags near a user
 @app.route('/getFlags', methods=['POST'])
 def getFlags():
   data=request.json
   email=data['email']
   lat=data['lat']
   lng=data['long']
+  curr_pos=(lat,lng)
   database.connect()
-  results = Flags.select().where(Flags.fid>0)
+  results = Flags.select().where(Flags.fid>=0)
   ret={"res": []}
   for res in results:
-    entry = {"name": res.name, "url": res.photo_url, "snippet": res.snippet, "rating": res.rating}
-    ret["res"].append(entry)
+    res_pos=(res.location_lat, res.location_long)
+    if vincenty(curr_pos, res_pos).miles < 5:
+      entry = {"name": res.name, "url": res.photo_url, "snippet": res.snippet, "rating": res.rating, "lat": res.location_lat, "long": res.location_long}
+      ret["res"].append(entry)
   return str(ret)
-  
+
+#create user timelie
+@app.route('/timeline', methods=['POST'])
+def timeline():
+  data=request.json
+  email=data['email']
+  lat=data['lat']
+  lng=data['long']
+  currpos=(lat,lng)
+  database.connect()
+  results = Userflags.select().where(Userflags.fid>=0)
+  ret={"res": []}
+  for res in results:
+    flag = Flags.select().where(Flags.fid==res.fid)
+    flag_lat = flag.location_lat
+    flag_long = flag.location_log
+    flag_pos = (flag_lat, flag_long)
+    if vincenty(curr_pos, flag_pos).miles < 5:
+      entry = {"name": res.name, "path": res.photo_path, "snippet": res.review, "rating": res.rating, "lat": flag_lat, "long": flag_long}
+      ret["res"].append(entry)
+  return str(ret)
+
+
 @app.route('/verify', methods=['POST'])
 def verify():
-    
+
 
 @app.route('/')
 def hello():
