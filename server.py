@@ -4,22 +4,16 @@ from peewee import *
 from flask import *
 app = Flask(__name__)
 
-
-
-# db = MySQLDatabase("greylock",  
-#                      user="root",        
-#                      passwd="greylock")
-
 @app.route('/login', methods=['POST'])
 def login():
 	email=request.form['email']
 	name=request.form['name']
-	
+
 	if not_exits:
 		newUser = User(name=name,
 					   email=email
 			)
-	else: 
+	else:
 		return
 
 @app.route('/')
