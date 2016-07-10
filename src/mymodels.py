@@ -37,6 +37,7 @@ class Userflags(BaseModel):
     rating = IntegerField(null=True)
     review = TextField(null=True)
     timestamp = TextField()
+    photo_path = TextField()
 
     class Meta:
         db_table = 'UserFlags'
@@ -47,11 +48,7 @@ class Userflags(BaseModel):
 
 class Users(BaseModel):
     email = CharField()
-    location_lat = DecimalField()
-    location_log = DecimalField()
     name = TextField(null=True)
-    password = CharField()
-    uid = PrimaryKeyField()
 
     class Meta:
         db_table = 'Users'
