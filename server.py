@@ -52,7 +52,7 @@ def timeline():
   email=data['email']
   lat=data['lat']
   lng=data['long']
-  currpos=(lat,lng)
+  curr_pos=(lat,lng)
   database.connect()
   results = Userflags.select().where(Userflags.fid>=0)
   ret={"res": []}
