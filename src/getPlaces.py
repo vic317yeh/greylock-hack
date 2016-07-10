@@ -10,6 +10,7 @@ import io
 from yelpapi import YelpAPI
 from geopy.geocoders import Nominatim
 import json
+from mymodels import *
 if not local:
   import MySQLdb
 
@@ -63,5 +64,3 @@ for biz in search_results['businesses']:
 
 if not local:
   db.commit()
-
-
