@@ -4,7 +4,7 @@ import os
 
 DIFFERENCE_BAR = 10
 
-def match(userImgSrc, targetImgSrc)
+def verify(userImgSrc, targetImgSrc):
 	user_img = Image.open(userImgSrc)
 	target_img = Image.open(targetImgSrc)
 	user_hash = imagehash.average_hash(user_img)
