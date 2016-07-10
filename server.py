@@ -40,7 +40,7 @@ def getFlags():
   ret={"res": []}
   for res in results:
     res_pos=(res.location_lat, res.location_log)
-    if vincenty(curr_pos, res_pos).miles < 5:
+    if vincenty(curr_pos, res_pos).miles < 20:
       entry = {"name": res.name, "url": res.photo_url, "snippet": res.snippet, "rating": res.rating, "lat": str(res.location_lat), "long": str(res.location_log)}
       ret["res"].append(entry)
   return str(ret)
@@ -61,7 +61,7 @@ def timeline():
     flag_lat = flag.location_lat
     flag_long = flag.location_log
     flag_pos = (flag_lat, flag_long)
-    if vincenty(curr_pos, flag_pos).miles < 5:
+    if vincenty(curr_pos, flag_pos).miles < 20:
       entry = {"email": res.email, "path": res.photo_path, "snippet": res.review, "rating": res.rating, "lat": flag_lat, "long": flag_long}
       ret["res"].append(entry)
   return str(ret)
