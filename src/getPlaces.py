@@ -1,4 +1,5 @@
 import sys
+import peewee
 
 if len(sys.argv)>1:
   local=True
