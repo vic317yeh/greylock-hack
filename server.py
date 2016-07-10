@@ -57,7 +57,7 @@ def timeline():
   results = Userflags.select().where(Userflags.fid>=0)
   ret={"res": []}
   for res in results:
-    flag = Flags.get(Flags.id == res.fid)
+    flag = Flags.get(Flags.fid == res.fid)
     flag_lat = flag.location_lat
     flag_long = flag.location_log
     flag_pos = (flag_lat, flag_long)
