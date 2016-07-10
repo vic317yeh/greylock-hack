@@ -3,6 +3,7 @@ import peewee
 from peewee import *
 from flask import *
 import os
+import time
 
 from werkzeug.utils import secure_filename
 import urllib, cStringIO
@@ -100,13 +101,23 @@ import base64
 
 @app.route('/verify', methods=['POST'])
 def verify():
+  email = request.json['email']
+  lat = request.json['lat']
+  lng = request.json['long']
   f = request.json['image']
   targetUrl = request.json['targetUrl']
   filename = str(hash(f))+'.jpg'
-  g = open(UPLOAD_FOLDER + filename, 'w')  
+  name = UPLOAD_FOLDER + filename
+  print name
+  g = open(name, 'w')
   g.write(base64.decodestring(f))
   g.close()
-  return str({'result':match(UPLOAD_FOLDER + filename, targetUrl)})
+  result = match(UPLOAD_FOLDER + filename, targetUrl)
+  if result:
+    newUserFlag = Usersflags(email=email, timestamp=int(time.time()), photo_path="https://52.40.56.30/"+name)
+    newUserFlag.save()
+
+  return str({'result':result})
 
 @app.route('/')
 def hello():
