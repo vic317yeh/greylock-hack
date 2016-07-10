@@ -41,12 +41,11 @@ def getFlags():
   for res in results:
     res_pos=(res.location_lat, res.location_long)
     if vincenty(curr_pos, res_pos).miles < 5:
-      entry = {"name": res.name, "url": res.photo_url, "snippet": res.snippet, "rating": res.rating, "lat": res.location_lat, "long": res.location_long}
+      entry = {"name": res.name, "url": res.photo_url, "snippet": res.snippet, "rating": res.rating, "lat": str(res.location_lat), "long": str(res.location_long)}
       ret["res"].append(entry)
   return str(ret)
 
 #create user timelie
-##
 @app.route('/timeline', methods=['POST'])
 def timeline():
   data=request.json
