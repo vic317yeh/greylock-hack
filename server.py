@@ -2,8 +2,33 @@
 import peewee
 from peewee import *
 from flask import *
+import os
+
+from werkzeug.utils import secure_filename
+import urllib, cStringIO
+
+UPLOAD_FOLDER = os.path.dirname(os.path.realpath(__file__)) + '/static/img/'
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+
 import MySQLdb
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+from PIL import Image
+import imagehash
+
+DIFFERENCE_BAR = 10
+
+def match(userImgSrc, targetImgSrc):
+    userImgSrc =cStringIO.StringIO(urllib.urlopen(userImgSrc).read())
+    targetImgSrc = cStringIO.StringIO(urllib.urlopen(targetImgSrc).read())
+    user_img = Image.open(userImgSrc)
+    target_img = Image.open(targetImgSrc)
+    user_hash = imagehash.average_hash(user_img)
+    target_hash = imagehash.average_hash(target_img)
+    result = True if user_hash-target_hash <= DIFFERENCE_BAR else False
+    return result
+
 
 #may fuck shit up
 import sys
@@ -67,10 +92,21 @@ def timeline():
   return str(ret)
 
 
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
+import base64
+
 @app.route('/verify', methods=['POST'])
 def verify():
-  return
-
+  f = request.json['image']
+  targetUrl = request.json['targetUrl']
+  filename = str(hash(f))+'.jpg'
+  g = open(UPLOAD_FOLDER + filename, 'w')  
+  g.write(base64.decodestring(f))
+  g.close()
+  return str({'result':match(UPLOAD_FOLDER + filename, targetUrl)})
 
 @app.route('/')
 def hello():

@@ -18,6 +18,10 @@ yelp_api = YelpAPI('rRkbtARpvQcSL3l-ZRIN0w',
         'd5ddPgXCn21G9Z3VIYkiQ51Wzvc')
 
 geolocator = Nominatim()
+
+#logic to convert lat-long to yelpable address
+#currently not needed, maybe add later
+'''
 loc = geolocator.reverse("37.777111, -122.415153")
 addr = loc.raw['address']
 
@@ -27,24 +31,21 @@ else:
     city=addr['town']
 
 address = addr['house_number'] + " " +addr['road'] + ", " + city +", " + addr['state']
-print address
+print address'''
+
+address="san jose"
 
 search_results = yelp_api.search_query(term="tourist attractions",
-    location=address, limit=20, sort=2, radius_filter=8000)
+    location=address, sort=2, radius_filter=32000)
 
 #print json.dumps(search_results, sort_keys=True, indent=4)
 
 #connect to db
 if not local:
-    '''db = MySQLdb.connect("localhost","root","greylock","greylock" )
-    cursor = db.cursor()
-    cursor.execute("SELECT VERSION()")
-    data = cursor.fetchone()
-    print "Database version : %s " % data'''
     database.connect()
 
 for biz in search_results['businesses']:
-    if biz['rating'] >= 3.5:
+    if biz['rating'] >= 3:
         name = biz['name']
         image =  biz['image_url']
         rating = biz['rating']
@@ -55,11 +56,8 @@ for biz in search_results['businesses']:
         print rating
         print lat
         print lng
-        '''sql = "INSERT INTO Flags (location_lat, location_log, rating, photo_url, name) VALUES ("+str(lat)+", "+str(lng)+", "+str(rating)+", \""+str(image)+"\", \""+name+"\")"
-        print sql
-    if not local:
-        print "Executing"
-        cursor.execute(sql)'''
-        currFlag = Flags(name=name, photo_url = image, rating = rating,
-            location_lat = lat, location_log = lng)
-        currFlag.save()
+        do = raw_input("ADD: ")
+        if do=="y":
+            currFlag = Flags(name=name, photo_url = image, rating = rating,
+                location_lat = lat, location_log = lng)
+            currFlag.save()
