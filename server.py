@@ -39,9 +39,9 @@ def getFlags():
   results = Flags.select().where(Flags.fid>=0)
   ret={"res": []}
   for res in results:
-    res_pos=(res.location_lat, res.location_long)
+    res_pos=(res.location_lat, res.location_log)
     if vincenty(curr_pos, res_pos).miles < 5:
-      entry = {"name": res.name, "url": res.photo_url, "snippet": res.snippet, "rating": res.rating, "lat": str(res.location_lat), "long": str(res.location_long)}
+      entry = {"name": res.name, "url": res.photo_url, "snippet": res.snippet, "rating": res.rating, "lat": str(res.location_lat), "long": str(res.location_log)}
       ret["res"].append(entry)
   return str(ret)
 
@@ -69,6 +69,7 @@ def timeline():
 
 @app.route('/verify', methods=['POST'])
 def verify():
+  return
 
 
 @app.route('/')
