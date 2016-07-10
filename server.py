@@ -62,7 +62,7 @@ def timeline():
     flag_long = flag.location_log
     flag_pos = (flag_lat, flag_long)
     if vincenty(curr_pos, flag_pos).miles < 5:
-      entry = {"name": res.name, "path": res.photo_path, "snippet": res.review, "rating": res.rating, "lat": flag_lat, "long": flag_long}
+      entry = {"email": res.email, "path": res.photo_path, "snippet": res.review, "rating": res.rating, "lat": flag_lat, "long": flag_long}
       ret["res"].append(entry)
   return str(ret)
 
